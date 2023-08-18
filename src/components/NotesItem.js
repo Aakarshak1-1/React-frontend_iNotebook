@@ -1,15 +1,19 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import NotesContext from "../context/Notes/NotesContext";
 
 export default function NotesItem(props) {
-  const context = useContext(NotesContext);
-  const { deleteNotes} = context;
   const { element } = props;
+  const context = useContext(NotesContext);
+  const { deleteNotes, editNotes } = context;
+  const [edited_title, setEditedTitle] = useState(element.title);
+  const [edited_description, setEditedDescription] = useState(
+    element.description
+  );
   const handleontitle = (e) => {
-    return { ...element, [e.target.name]: e.target.value };
+    setEditedTitle(e.target.value);
   };
   const handleondescription = (e) => {
-    return { ...element, [e.target.name]: e.target.value };
+    setEditedDescription(e.target.value);
   };
   return (
     <>
@@ -22,13 +26,13 @@ export default function NotesItem(props) {
             <input
               type="text"
               className="border border-0"
-              id="title"
-              name="title"
+              id="eitle"
+              name="etitle"
               aria-describedby="emailHelp"
               placeholder="Take a note..."
-              value={element.title}
+              value={edited_title}
               onChange={handleontitle}
-              style={{ outline: "none", backgroundColor: "#ffffff" }}
+              style={{ outline: "none", backgroundColor: "#ffffff", width: "250px"  }}
             />
           </h5>
           <div className="card-body">
@@ -36,29 +40,35 @@ export default function NotesItem(props) {
               <input
                 type="text"
                 className="border border-0"
-                id="exampleInputEmail1"
+                id="edescription"
+                name="edescription"
                 aria-describedby="emailHelp"
                 placeholder="Take a note..."
-                value={element.description}
-                style={{ outline: "none", backgroundColor: "#ffffff" }}
+                value={edited_description}
                 onChange={handleondescription}
+                style={{ outline: "none", backgroundColor: "#ffffff" }}
               />
             </p>
           </div>
           <div className="card-footer bg-transparent">
-            <i className="fa-regular fa-pen-to-square me-2"></i>
             <i
-              className="fa-regular fa-trash-can mx-2 "
+              className="fa-regular fa-pen-to-square mar"
+              onClick={() => {
+                editNotes(element._id, edited_title, edited_description);
+              }}
+            ></i>
+            <i
+              className="fa-regular fa-trash-can mar "
               onClick={() => {
                 deleteNotes(element._id);
               }}
             ></i>
-            <i className="fa-regular fa-bell mx-2"></i>
-            <i className="fa-solid fa-user-plus mx-2"></i>
-            <i className="fa-solid fa-palette mx-2"></i>
-            <i className="fa-regular fa-image mx-2"></i>
-            <i className="fa-solid fa-box-archive mx-2"></i>
-            <i className="fa-solid fa-ellipsis-vertical mx-2"></i>
+            <i className="fa-regular fa-bell mar"></i>
+            <i className="fa-solid fa-user-plus mar"></i>
+            <i className="fa-solid fa-palette mar"></i>
+            <i className="fa-regular fa-image mar"></i>
+            <i className="fa-solid fa-box-archive mar"></i>
+            <i className="fa-solid fa-ellipsis-vertical mar"></i>
           </div>
         </div>
       </div>

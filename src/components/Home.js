@@ -5,8 +5,16 @@ import Alert from "./Alert";
 
 export default function Home() {
   const context = useContext(NotesContext);
-  const { notes_logo_flag, addNotes, alert, alert2, addalert, addalert2 } =
-    context;
+  const {
+    notes_logo_flag,
+    addNotes,
+    alert,
+    alert2,
+    addalert,
+    addalert2,
+    editalert,
+    editalert2,
+  } = context;
   const [note_flag, setNoteflag] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [addingNote, SetnewNote] = useState({
@@ -60,6 +68,12 @@ export default function Home() {
       )}
       {!addalert && addalert2 && (
         <Alert message={"Note is added!"} type={"success"} />
+      )}
+      {!editalert && editalert2 && (
+        <Alert message={"Note is Updated!"} type={"success"} />
+      )}
+      {editalert && !editalert2 && (
+        <Alert message={"Note is Updated!"} type={"success"} />
       )}
       {showAlert && (
         <Alert

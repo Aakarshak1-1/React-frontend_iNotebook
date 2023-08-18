@@ -13,7 +13,7 @@ export default function Alert(props) {
   }, []);
   return (
     showAlert && (
-      <div className={`alert alert-${props.type} `} role="alert">
+      <div className={`alert alert-${props.type} text-center`} role="alert">
         {props.message}
       </div>
     )

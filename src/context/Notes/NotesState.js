@@ -10,6 +10,10 @@ const NoteState = (props) => {
   const [alert2, setAlertFlag2] = useState(false);
   const [addalert, setAddAlertFlag] = useState(false);
   const [addalert2, setAddAlertFlag2] = useState(false);
+  const [editalert, setEditAlertFlag] = useState(false);
+  const [editalert2, setEditAlertFlag2] = useState(false);
+  const [edit_counter, setCounter] = useState(2);
+
   //   Fetch all notes
   const getNotes = async () => {
     // APi call starts
@@ -98,7 +102,7 @@ const NoteState = (props) => {
     // Api call starts
     const url = `${host}/api/notes/updatenotes/${id}`;
     const response = await fetch(url, {
-      method: "POST",
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
         JWT_token:
@@ -114,6 +118,16 @@ const NoteState = (props) => {
         element.description = description;
         element.tag = tag;
       }
+    }
+    if (edit_counter > 0) {
+      if (edit_counter % 2 === 0) {
+        setEditAlertFlag(true);
+        setEditAlertFlag2(false);
+      } else {
+        setEditAlertFlag(false);
+        setEditAlertFlag2(true);
+      }
+      setCounter(prevCounter => prevCounter + 1);
     }
   };
 
@@ -132,6 +146,8 @@ const NoteState = (props) => {
         alert2,
         addalert,
         addalert2,
+        editalert,
+        editalert2,
       }}
     >
       {props.children}
