@@ -4,7 +4,10 @@ import NotesItem from "./NotesItem";
 
 export default function Notes(props) {
   const context = useContext(NotesContext);
-  const { notes, notes_logo_flag, setNotesLogoFlag} = context;
+  const { notes, notes_logo_flag, setNotesLogoFlag, getNotes } = context;
+  useEffect(() => {
+    getNotes();
+  }, []);
   useEffect(() => {
     if (notes.length !== 0) {
       setNotesLogoFlag(true);

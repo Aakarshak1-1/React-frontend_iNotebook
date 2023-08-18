@@ -3,36 +3,35 @@ import NotesContext from "./NotesContext";
 
 const NoteState = (props) => {
   const host = "http://localhost:5000";
-  const user_notes = [
-    {
-      _id: "64da3a5fb763ecc8c713fc0e",
-      user: "64d9e6b9b991e3e2eed490d6",
-      title: "My first",
-      description: "React app cdscsa ",
-      tag: "Personal",
-      date: "2023-08-14T14:29:51.481Z",
-      __v: 0,
-    },
-    {
-      _id: "64da3a62b763ecc8c713fc10",
-      user: "64d9e6b9b991e3e2eed490d6",
-      title: "My first",
-      description: "React app cdscsa cadSSC",
-      tag: "Personal",
-      date: "2023-08-14T14:29:54.839Z",
-      __v: 0,
-    },
-  ];
+  const user_notes = [];
   const [notes, setNotes] = useState(user_notes);
   const [notes_logo_flag, setNotesLogoFlag] = useState(false);
   const [alert, setAlertFlag] = useState(false);
   const [alert2, setAlertFlag2] = useState(false);
   const [addalert, setAddAlertFlag] = useState(false);
   const [addalert2, setAddAlertFlag2] = useState(false);
+  //   Fetch all notes
+  const getNotes = async () => {
+    // APi call starts
+    const url = `${host}/api/notes/fetchnotes`;
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        JWT_token:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjRkOWU2YjliOTkxZTNlMmVlZDQ5MGQ2In0sImlhdCI6MTY5MjAyMDE2MX0.rwvhygQdsswhQTdMVG856Stqus8MRZ_ha9j9PYa1gm4",
+      },
+    });
+    const json = await response.json();
+    // console.log(json);
+    setNotes(json);
+    // APi call ends
+  };
   //   Adding a new note
   const addNotes = async (title, description, tag) => {
     // APi call starts
     const url = `${host}/api/notes/addnotes`;
+    // console.log(title)
     const response = await fetch(url, {
       method: "POST",
       headers: {
@@ -42,8 +41,7 @@ const NoteState = (props) => {
       },
       body: JSON.stringify({ title, description, tag }),
     });
-    // APi call ends
-    let counter = 0;
+    // API call ends
     const addnote = {
       _id: "64da3a5fb763ecc8c713fc033",
       user: "64d9e6b9b991e3e2eed490d6",
@@ -53,6 +51,7 @@ const NoteState = (props) => {
       date: "2023-08-14T14:29:51.481Z",
       __v: 0,
     };
+    let counter = 0;
     counter += 1;
     if (counter > 0) {
       if (counter % 2 === 0) {
@@ -66,6 +65,19 @@ const NoteState = (props) => {
     setNotes(notes.concat(addnote));
   };
   const deleteNotes = async (id) => {
+    // APi call starts
+    const url = `${host}/api/notes/deletenotes/${id}`;
+    const response = await fetch(url, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        JWT_token:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjRkOWU2YjliOTkxZTNlMmVlZDQ5MGQ2In0sImlhdCI6MTY5MjAyMDE2MX0.rwvhygQdsswhQTdMVG856Stqus8MRZ_ha9j9PYa1gm4",
+      },
+    });
+    const json = await response.json();
+    console.log(json);
+    // APi call ends
     let counter = 0;
     const deleted_notes = notes.filter((addnote) => {
       counter += 1;
@@ -115,6 +127,7 @@ const NoteState = (props) => {
         addNotes,
         deleteNotes,
         editNotes,
+        getNotes,
         alert,
         alert2,
         addalert,

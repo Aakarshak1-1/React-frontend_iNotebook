@@ -18,8 +18,8 @@ export default function Home() {
     if (note_flag) {
       if (addingNote.title !== "" && addingNote.description !== "") {
         setNoteflag(!note_flag);
-        e.preventDefault();
         if (addingNote.title !== "" && addingNote.description !== "") {
+          e.preventDefault();
           addNotes(addingNote.title, addingNote.description, addingNote.tag);
         }
         SetnewNote({ title: "", description: "" });
@@ -34,11 +34,13 @@ export default function Home() {
     if (addingNote.title !== "" && addingNote.description !== "") {
       if (note_flag) {
         setNoteflag(!note_flag);
-        e.preventDefault();
         if (addingNote.title !== "" && addingNote.description !== "") {
+          e.preventDefault();
+          console.log(addingNote.title, addingNote.description, addingNote.tag);
           addNotes(addingNote.title, addingNote.description, addingNote.tag);
+        } else {
+          SetnewNote({ title: "", description: "" });
         }
-        SetnewNote({ title: "", description: "" });
       }
     }
   };
