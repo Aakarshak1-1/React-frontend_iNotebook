@@ -1,31 +1,76 @@
 import React, { useState, useContext } from "react";
 import Notes from "./Notes";
 import NotesContext from "../context/Notes/NotesContext";
+import Alert from "./Alert";
 
 export default function Home() {
   const context = useContext(NotesContext);
-  const { notes_logo_flag } = context;
+  const { notes_logo_flag, addNotes, alert, alert2, addalert, addalert2 } =
+    context;
   const [note_flag, setNoteflag] = useState(false);
-  let NoteMode = () => {
+  const [showAlert, setShowAlert] = useState(false);
+  const [addingNote, SetnewNote] = useState({
+    title: "",
+    description: "",
+    tag: "default",
+  });
+  let NoteMode = (e) => {
     if (note_flag) {
-      setNoteflag(!note_flag);
+      if (addingNote.title !== "" && addingNote.description !== "") {
+        setNoteflag(!note_flag);
+        e.preventDefault();
+        if (addingNote.title !== "" && addingNote.description !== "") {
+          addNotes(addingNote.title, addingNote.description, addingNote.tag);
+        }
+        SetnewNote({ title: "", description: "" });
+      } else if (addingNote.title === "" || addingNote.description === "") {
+        setShowAlert(!showAlert);
+      }
     } else {
       setNoteflag(!note_flag);
     }
   };
-  let BodyMode = () => {
-    if (note_flag) {
-      setNoteflag(!note_flag);
+  let BodyMode = (e) => {
+    if (addingNote.title !== "" && addingNote.description !== "") {
+      if (note_flag) {
+        setNoteflag(!note_flag);
+        e.preventDefault();
+        if (addingNote.title !== "" && addingNote.description !== "") {
+          addNotes(addingNote.title, addingNote.description, addingNote.tag);
+        }
+        SetnewNote({ title: "", description: "" });
+      }
     }
+  };
+  let handleonChange = (e) => {
+    SetnewNote({ ...addingNote, [e.target.name]: e.target.value });
   };
   return (
     <>
+      {!alert2 && alert && (
+        <Alert message={"Note is deleted!"} type={"danger"} />
+      )}
+      {!alert && alert2 && (
+        <Alert message={"Note is deleted!"} type={"danger"} />
+      )}
+      {!addalert2 && addalert && (
+        <Alert message={"Note is added!"} type={"success"} />
+      )}
+      {!addalert && addalert2 && (
+        <Alert message={"Note is added!"} type={"success"} />
+      )}
+      {showAlert && (
+        <Alert
+          message={"Title or Description can't be empty!"}
+          type={"danger"}
+        />
+      )}
       <div className="container" onClick={BodyMode}>
         <div className="container d-flex justify-content-center my-5">
           {!note_flag && (
             <div
               className="text-center d-flex justify-content-center align-items-center form-control border"
-              style={{ width: "600px" }}
+              style={{ width: "600px", backgroundColor: "#f8f9fa" }}
             >
               <input
                 type="text"
@@ -33,7 +78,12 @@ export default function Home() {
                 id="exampleInputEmail1"
                 aria-describedby="emailHelp"
                 placeholder="Take a note..."
-                style={{ width: "450px", height: "30px", outline: "none" }}
+                style={{
+                  width: "450px",
+                  height: "30px",
+                  outline: "none",
+                  backgroundColor: "#f8f9fa",
+                }}
                 onClick={NoteMode}
               />
               <button className="border border-0 bg-light" disabled={false}>
@@ -59,7 +109,8 @@ export default function Home() {
                 <input
                   type="text"
                   className="border border-0 my-2 ps-1"
-                  id="exampleInputEmail1"
+                  id="title"
+                  name="title"
                   aria-describedby="emailHelp"
                   placeholder="Title"
                   style={{
@@ -69,6 +120,7 @@ export default function Home() {
                     color: "#6c6c6c",
                   }}
                   //   onClick={NoteMode}
+                  onChange={handleonChange}
                 />
                 <i
                   className="fa-solid fa-thumbtack"
@@ -78,11 +130,13 @@ export default function Home() {
               <input
                 type="text"
                 className="border border-0 my-2 ps-1"
-                id="exampleInputEmail1"
+                id="description"
+                name="description"
                 aria-describedby="emailHelp"
                 placeholder="Take a note..."
                 style={{ width: "450px", height: "30px", outline: "none" }}
                 //   onClick={NoteMode}
+                onChange={handleonChange}
               />
               <div className="d-flex align-items-center">
                 <div className="icons my-2">

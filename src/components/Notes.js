@@ -4,7 +4,7 @@ import NotesItem from "./NotesItem";
 
 export default function Notes(props) {
   const context = useContext(NotesContext);
-  const { notes, notes_logo_flag, setNotesLogoFlag } = context;
+  const { notes, notes_logo_flag, setNotesLogoFlag} = context;
   useEffect(() => {
     if (notes.length !== 0) {
       setNotesLogoFlag(true);
@@ -13,7 +13,7 @@ export default function Notes(props) {
     }
   }, [notes.length, notes_logo_flag, setNotesLogoFlag]);
   return (
-    <div className="row mx-5">
+    <div className="row mx-5" style={{ marginTop: "50px" }}>
       {notes.map((element) => {
         return <NotesItem element={element} key={element._id} />;
       })}
