@@ -22,8 +22,7 @@ const NoteState = (props) => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        JWT_token:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjRkOWU2YjliOTkxZTNlMmVlZDQ5MGQ2In0sImlhdCI6MTY5MjAyMDE2MX0.rwvhygQdsswhQTdMVG856Stqus8MRZ_ha9j9PYa1gm4",
+        JWT_token: localStorage.getItem("token"),
       },
     });
     const json = await response.json();
@@ -36,12 +35,12 @@ const NoteState = (props) => {
     // APi call starts
     const url = `${host}/api/notes/addnotes`;
     // console.log(title)
+    // eslint-disable-next-line
     const response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        JWT_token:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjRkOWU2YjliOTkxZTNlMmVlZDQ5MGQ2In0sImlhdCI6MTY5MjAyMDE2MX0.rwvhygQdsswhQTdMVG856Stqus8MRZ_ha9j9PYa1gm4",
+        JWT_token: localStorage.getItem("token"),
       },
       body: JSON.stringify({ title, description, tag }),
     });
@@ -68,6 +67,7 @@ const NoteState = (props) => {
     }
     setNotes(notes.concat(addnote));
   };
+  //   Deleting the notes
   const deleteNotes = async (id) => {
     // APi call starts
     const url = `${host}/api/notes/deletenotes/${id}`;
@@ -75,8 +75,7 @@ const NoteState = (props) => {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        JWT_token:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjRkOWU2YjliOTkxZTNlMmVlZDQ5MGQ2In0sImlhdCI6MTY5MjAyMDE2MX0.rwvhygQdsswhQTdMVG856Stqus8MRZ_ha9j9PYa1gm4",
+        JWT_token: localStorage.getItem("token"),
       },
     });
     const json = await response.json();
@@ -98,15 +97,16 @@ const NoteState = (props) => {
     }
     setNotes(deleted_notes);
   };
+  //   Updating the Notes
   const editNotes = async (id, title, description, tag) => {
     // Api call starts
     const url = `${host}/api/notes/updatenotes/${id}`;
+    // eslint-disable-next-line
     const response = await fetch(url, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        JWT_token:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjRkOWU2YjliOTkxZTNlMmVlZDQ5MGQ2In0sImlhdCI6MTY5MjAyMDE2MX0.rwvhygQdsswhQTdMVG856Stqus8MRZ_ha9j9PYa1gm4",
+        JWT_token: localStorage.getItem("token"),
       },
       body: JSON.stringify({ title, description, tag }),
     });
@@ -127,7 +127,7 @@ const NoteState = (props) => {
         setEditAlertFlag(false);
         setEditAlertFlag2(true);
       }
-      setCounter(prevCounter => prevCounter + 1);
+      setCounter((prevCounter) => prevCounter + 1);
     }
   };
 

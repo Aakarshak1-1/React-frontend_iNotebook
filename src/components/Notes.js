@@ -1,12 +1,19 @@
 import React, { useContext, useEffect } from "react";
 import NotesContext from "../context/Notes/NotesContext";
 import NotesItem from "./NotesItem";
+import { useNavigate } from "react-router-dom";
 
 export default function Notes(props) {
+  let history = useNavigate();
   const context = useContext(NotesContext);
   const { notes, notes_logo_flag, setNotesLogoFlag, getNotes } = context;
   useEffect(() => {
-    getNotes();
+    if (localStorage.getItem("token")) {
+      getNotes();
+    } else {
+      history("/login");
+    }
+    // eslint-disable-next-line
   }, []);
   useEffect(() => {
     if (notes.length !== 0) {

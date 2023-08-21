@@ -5,11 +5,11 @@ export default function Navbar() {
   let location = useLocation();
   return (
     <nav
-      className="navbar navbar-expand-lg  bg-dark border-bottom border-body"
-      data-bs-theme="dark"
+      className="navbar navbar-expand-lg border-bottom border-body"
+      style={{ backgroundColor: "#e3f2fd" }}
     >
       <div className="container-fluid">
-        <Link className="navbar-brand" to="/">
+        <Link className="navbar-brand text-primary fw-bold" to="/">
           iNotebook
         </Link>
         <button
@@ -24,7 +24,7 @@ export default function Navbar() {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+          <ul className="navbar-nav me-auto mb-2 mb-lg-0 ">
             <li className="nav-item">
               <Link
                 className={`nav-link ${
@@ -47,17 +47,66 @@ export default function Navbar() {
               </Link>
             </li>
           </ul>
-          <form className="d-flex" role="search">
-            <input
-              className="form-control me-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button className="btn btn-outline-success" type="submit">
-              Search
-            </button>
-          </form>
+          <div
+            className="search"
+            style={{ position: "absolute", right: "400px" }}
+          >
+            <form
+              className="d-flex align-items-center"
+              role="search"
+              // style={{paddingRight: "260px" }}
+            >
+              <input
+                className="form-control  border border-1 border-primary"
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+                style={{ width: "530px", outline: "none" }}
+              />
+              <button className="btn btn-outline-primary mx-2" type="submit">
+                Search
+              </button>
+            </form>
+          </div>
+          {localStorage.getItem("token") !== null ? (
+            <div className="d-flex align-items-center justify-content-center">
+              <button
+                className="btn border border-0"
+                style={{ cursor: "default" }}
+              >
+                <span className="text-primary">
+                  {localStorage.getItem("name")}
+                </span>
+              </button>
+              <Link
+                className="btn btn-outline-primary me-2"
+                to="/login"
+                role="button"
+                onClick={() => {
+                  localStorage.clear();
+                }}
+              >
+                Logout
+              </Link>
+            </div>
+          ) : (
+            <div>
+              <Link
+                className="btn btn-outline-primary me-2"
+                to="/login"
+                role="button"
+              >
+                Login
+              </Link>
+              <Link
+                className="btn btn-outline-primary me-2"
+                to="/signup"
+                role="button"
+              >
+                Signup
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </nav>

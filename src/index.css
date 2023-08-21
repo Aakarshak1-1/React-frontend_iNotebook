@@ -20,3 +20,6 @@ i:hover {
 .mar {
   margin: 0 7px 0 7px;
 }
+textarea {
+  resize: none;
+}
