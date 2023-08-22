@@ -71,6 +71,7 @@ const NoteState = (props) => {
   const deleteNotes = async (id) => {
     // APi call starts
     const url = `${host}/api/notes/deletenotes/${id}`;
+    // eslint-disable-next-line
     const response = await fetch(url, {
       method: "DELETE",
       headers: {
@@ -78,8 +79,7 @@ const NoteState = (props) => {
         JWT_token: localStorage.getItem("token"),
       },
     });
-    const json = await response.json();
-    console.log(json);
+    // const json = await response.json();
     // APi call ends
     let counter = 0;
     const deleted_notes = notes.filter((addnote) => {

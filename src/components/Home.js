@@ -44,11 +44,10 @@ export default function Home() {
         setNoteflag(!note_flag);
         if (addingNote.title !== "" && addingNote.description !== "") {
           e.preventDefault();
-          console.log(addingNote.title, addingNote.description, addingNote.tag);
           addNotes(addingNote.title, addingNote.description, addingNote.tag);
-        } else {
-          SetnewNote({ title: "", description: "" });
         }
+      } else {
+        SetnewNote({ title: "", description: "" });
       }
     }
   };
